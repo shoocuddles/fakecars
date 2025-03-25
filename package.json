@@ -4,7 +4,6 @@
   "description": "Scrapes filtered vehicle listings from AutoTrader",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npx puppeteer browsers install chrome",
     "start": "node index.js"
   },
   "dependencies": {
