@@ -1,7 +1,7 @@
 {
   "name": "vehicle-scraper",
   "version": "1.0.0",
-  "description": "Scrape AutoTrader and Facebook listings",
+  "description": "Scrapes Facebook Marketplace and AutoTrader for vehicle listings",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

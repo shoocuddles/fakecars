@@ -1,4 +1,3 @@
-
 const express = require('express');
 const puppeteer = require('puppeteer');
 const cors = require('cors');
@@ -15,7 +14,7 @@ app.get('/scrape', async (req, res) => {
   const page = await browser.newPage();
   const listings = [];
 
-  // ----- AutoTrader.ca Scraping -----
+  // AutoTrader scraping
   try {
     await page.goto('https://www.autotrader.ca/cars/on/?rcp=10', { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('.result-item');
@@ -39,15 +38,14 @@ app.get('/scrape', async (req, res) => {
 
     listings.push(...autoTraderListings);
   } catch (err) {
-    console.error('Error scraping AutoTrader:', err);
+    console.error('AutoTrader error:', err);
   }
 
-  // ----- Facebook Marketplace Scraping -----
+  // Facebook Marketplace scraping (limited by login)
   try {
     await page.goto('https://www.facebook.com/marketplace/ottawa/vehicles', { waitUntil: 'domcontentloaded' });
-    await page.waitForTimeout(5000); // Let it load
+    await page.waitForTimeout(5000);
 
-    // Simulate scroll to load more listings
     for (let i = 0; i < 3; i++) {
       await page.evaluate(() => window.scrollBy(0, window.innerHeight));
       await page.waitForTimeout(2000);
@@ -62,8 +60,7 @@ app.get('/scrape', async (req, res) => {
         const price = priceMatch ? priceMatch[0] : '';
         const image = card.querySelector('img')?.src || '';
         const desc = card.innerText;
-        
-        // Apply basic filters (Facebook filtering is tricky without URL params)
+
         const kmMatch = desc.match(/([\d,]+)\s?km/i);
         const yearMatch = desc.match(/(20\d{2}|201[7-9])/);
         const priceValue = parseInt(price.replace(/[^\d]/g, ''));
@@ -88,11 +85,11 @@ app.get('/scrape', async (req, res) => {
 
     listings.push(...fbListings);
   } catch (err) {
-    console.error('Error scraping Facebook:', err);
+    console.error('Facebook error:', err);
   }
 
   await browser.close();
-  res.json({ listings });
+  res.json({ status: "done", count: listings.length, listings });
 });
 
 const PORT = process.env.PORT || 3000;
