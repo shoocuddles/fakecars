@@ -1,16 +1,17 @@
 {
   "name": "vehicle-scraper",
   "version": "1.0.0",
-  "description": "Scrapes Facebook Marketplace and AutoTrader for vehicle listings",
+  "description": "Scrapes filtered vehicle listings from AutoTrader",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npx puppeteer browsers install chrome",
     "start": "node index.js"
   },
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "cors": "^2.8.5",
     "puppeteer": "^22.8.2",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra": "^4.2.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.1"
   }
 }
